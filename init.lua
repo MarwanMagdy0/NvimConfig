@@ -8,4 +8,5 @@ require("lazy").setup("plugins")
 
 require("config.options")
 require("config.keymaps")
+vim.opt.clipboard = "unnamedplus"
 
