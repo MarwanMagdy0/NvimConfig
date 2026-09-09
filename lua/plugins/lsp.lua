@@ -1,21 +1,22 @@
 return {
     "neovim/nvim-lspconfig",
     dependencies = {
-        "hrsh7th/cmp-nvim-lsp", -- Crucial: gives Neovim LSP the autocomplete features
+        "hrsh7th/cmp-nvim-lsp",
     },
 
     config = function()
-        -- 1. Get the autocomplete capabilities from nvim-cmp
-        local capabilities = require("cmp_nvim_lsp").default_capabilities()
+        -- Safe lookup for autocomplete capabilities
+        local has_cmp, cmp_lsp = pcall(require, "cmp_nvim_lsp")
+        local capabilities = has_cmp and cmp_lsp.default_capabilities() or vim.lsp.protocol.make_client_capabilities()
 
-        -- 2. Your Existing TypeScript Config
+        -- 1. Modern TypeScript Config (Neovim 0.11 Style)
         vim.lsp.config("ts_ls", {
             cmd = { "typescript-language-server", "--stdio" },
-            capabilities = capabilities, -- Pass capabilities here too!
+            capabilities = capabilities,
         })
         vim.lsp.enable("ts_ls")
 
-        -- 3. Fixed Termux Python Config (Pyright)
+        -- 2. Modern Termux Python Config (Neovim 0.11 Style)
         local termux_bin = os.getenv("PREFIX") .. "/bin/pyright-langserver"
 
         vim.lsp.config("pyright", {
@@ -25,13 +26,11 @@ return {
                 python = {
                     analysis = {
                         autoSearchPaths = true,
-                        useLibraryCodeForTypes = true, -- Crucial for extracting types from installed libraries
+                        useLibraryCodeForTypes = true,
                         typeCheckingMode = "basic",
-                        -- Explicitly tell Pyright to index third-party packages for autocompletion
-                        indexing = true, 
-                        -- Force Pyright to recognize compiled binary submodules
+                        indexing = true,
                         extraPaths = {
-                            os.getenv("PREFIX") .. "/lib/python3.11/site-packages", -- Change 3.11 to your exact python version if different
+                            os.getenv("PREFIX") .. "/lib/python3.14/site-packages",
                         }
                     },
                 },
