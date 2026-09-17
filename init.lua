@@ -14,19 +14,22 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- 2. تشغيل lazy.nvim مع استيراد مجلد plugins بشكل صحيح وعميق
 require("lazy").setup({
     spec = {
-        { import = "plugins" }, -- يضمن قراءة أي ملف نضعه داخل lua/plugins/ تلقائياً
+        { import = "plugins" },
     },
     change_detection = {
-        enabled = true, -- يجعله يلمح أي ملف تعدله أو تضيفه فوراً دون مشاكل
+        enabled = true,
         notify = false,
     },
 })
 
--- 3. تحميل بقية الإعدادات الخاصة بك
 require("config.options")
 require("config.keymaps")
 vim.opt.clipboard = "unnamedplus"
+
+vim.keymap.set({'n', 'v'}, 'd', '"_d', { noremap = true })
+vim.keymap.set({'n', 'v'}, 'c', '"_c', { noremap = true })
+vim.keymap.set({'n', 'v'}, 'x', '"_x', { noremap = true })
 vim.cmd("colorscheme onedark")
+vim.opt.scrolloff = 4 
