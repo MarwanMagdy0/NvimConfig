@@ -33,3 +33,6 @@ vim.keymap.set({'n', 'v'}, 'c', '"_c', { noremap = true })
 vim.keymap.set({'n', 'v'}, 'x', '"_x', { noremap = true })
 vim.cmd("colorscheme onedark")
 vim.opt.scrolloff = 4 
+
+-- Exit terminal mode using the Escape key
+vim.keymap.set('t', '<Esc>', [[<C-\><C-n>]], { silent = true })
