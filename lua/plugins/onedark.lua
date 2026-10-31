@@ -1,9 +1,12 @@
 return {
-    "olimorris/onedarkpro.nvim",
+    "navarasu/onedark.nvim",
     priority = 1000,
-
+    lazy = false,
     config = function()
-        require("onedarkpro").setup()
-        vim.cmd("colorscheme onedark")
+        require("onedark").setup({
+            style = "dark",
+        })
+
+        require("onedark").load()
     end,
 }

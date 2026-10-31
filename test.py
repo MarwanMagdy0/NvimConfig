@@ -4,5 +4,4 @@ def func(arg: int):
 
 func(5)
 from PyQt5.QtWidgets import QApplication
-
 QApplication.exec()

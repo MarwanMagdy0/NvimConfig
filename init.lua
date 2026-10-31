@@ -1,19 +1,22 @@
 vim.g.mapleader = " "
 
--- 1. التأكد التلقائي من تثبيت وتشغيل lazy.nvim بشكل سليم
+-- Install and load lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+
 if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com",
-    "--branch=stable",
-    lazypath,
-  })
+    vim.fn.system({
+        "git",
+        "clone",
+        "--filter=blob:none",
+        "https://github.com/folke/lazy.nvim.git",
+        "--branch=stable",
+        lazypath,
+    })
 end
+
 vim.opt.rtp:prepend(lazypath)
 
+-- Plugin setup
 require("lazy").setup({
     spec = {
         { import = "plugins" },
@@ -24,15 +27,23 @@ require("lazy").setup({
     },
 })
 
+-- Load configuration
 require("config.options")
 require("config.keymaps")
+
+-- Clipboard
 vim.opt.clipboard = "unnamedplus"
 
-vim.keymap.set({'n', 'v'}, 'd', '"_d', { noremap = true })
-vim.keymap.set({'n', 'v'}, 'c', '"_c', { noremap = true })
-vim.keymap.set({'n', 'v'}, 'x', '"_x', { noremap = true })
-vim.cmd("colorscheme onedark")
-vim.opt.scrolloff = 4 
+-- Custom keymaps
+vim.keymap.set({ "n", "v" }, "d", '"_d', { noremap = true })
+vim.keymap.set({ "n", "v" }, "c", '"_c', { noremap = true })
+vim.keymap.set({ "n", "v" }, "x", '"_x', { noremap = true })
 
--- Exit terminal mode using the Escape key
-vim.keymap.set('t', '<Esc>', [[<C-\><C-n>]], { silent = true })
+-- Colorscheme
+vim.cmd("colorscheme onedark")
+
+-- Scrolling
+vim.opt.scrolloff = 4
+
+-- Terminal mode
+vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]], { silent = true })
